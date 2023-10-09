@@ -1,0 +1,14 @@
+React JS
+
+
+node -v
+
+
+npx create-react-app my-react-app
+
+
+
+npm start
+
+
+npm install react-router-dom

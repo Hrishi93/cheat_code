@@ -1,0 +1,82 @@
+Single Page Application
+
+// src/App.js
+
+import React from 'react';
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      <header>
+        <h1>Protoype Website</h1>
+      </header>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#register">Register</a></li>
+          <li><a href="#login">Login</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <main>
+        <section id="home">
+          <h2>Home</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec libero.</p>
+        </section>
+        <section id="register">
+        <h2>Register</h2>
+            <form>
+            <label htmlFor="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" />
+
+            <label htmlFor="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" />
+
+            <label htmlFor="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" />
+
+            <button type="submit">Register</button>
+  </form>
+
+        </section>
+        <section id="login">
+          <h2>Login</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec libero.</p>
+        </section>
+        <section id="contact">
+          <h2>Contact</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec libero.</p>
+        </section>
+      </main>
+      <footer>
+        <p>&copy; 2023 Your Website Name</p>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
+
+
+----
+ <h2>Registration Form</h2>
+        <form>
+            
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username">
+            
+           
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+           
+           
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            
+          
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+           
+                <button type="submit">Register</button>
+        </form>
