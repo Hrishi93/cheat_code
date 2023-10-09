@@ -1,0 +1,60 @@
+1) Create an Account on GitHub: Repo
+	
+  	//create one repo on the Git Hub 
+
+	
+2) Install Git:
+Ensure that Git is installed on your system. 
+You can download it from 
+https://git-scm.com/downloads and follow the installation instructions.
+
+4) Configure GitHub with VS code (with git bash)
+git config --global user.name "Your Name"
+git config --global user.email "youremail@example.com"
+git config --list
+
+
+//open vs-code
+3) Clone the Repository:
+git clone <repository_url>
+
+git status // to check status
+
+4) cd <project-name>
+
+5) Add file  ex.index.html
+git add index.html
+
+6)Commit File ex. index.html
+git commit -m "msg_that_reflect_in_update"
+
+7)push code on GitHub
+git push origin main
+
+-----------------------------
+init command - use to create new git repo
+
+cd .. (on main Folder )
+
+1) mkdir local-repo ----//project-name
+
+2) cd local-repo
+
+3)git init
+
+
+		index.html
+		demo.html
+		style.css
+4)git add .
+
+5)git commit -m "Add files"
+
+
+	create local-repo repository on GitHub and Copy url Link
+6)git remote add origin https://github.com/Hrishi93/local-repo.git
+
+
+7)git branch  ==> to check branck
+
+8)git push origin main

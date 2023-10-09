@@ -1,0 +1,302 @@
+CRUD Operation
+
+
+
+
+package in.jd.cr;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+public class InsertClass {
+
+	public static void main(String[] args) throws Exception{
+		//loading driver class (Load and Register Driver) - 1
+		Class.forName("com.mysql.cj.jdbc.Driver");
+				
+		
+            // Connection Create  - 2
+		Connection con =DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc_db", "db_user_name", "db_password");
+		//System.out.println("Done");
+				
+
+            //create a statement  - 3 
+		PreparedStatement ps = con.prepareStatement("create table jdbc_emp4(id int, name varchar(30))");
+				
+		
+             //execute statement  - 4
+		  ps.executeUpdate();
+              System.out.println("Querry Execute Succesfully");
+	
+
+		  //Close connection - 5
+		  con.close();
+	}
+}
+
+
+package in.db.create;
+public class CreateDatabaseExample {
+    public static void main(String[] args) {
+        // Database connection parameters
+        String url = "jdbc:mysql://localhost:3306/";
+        String username = "Your_UserName";
+        String password = "Your_Password";
+        
+        Connection connection = null;
+        Statement statement = null;
+        
+        try {
+            // Establish the connection
+            connection = DriverManager.getConnection(url, username, password);
+            
+            // Create a Statement
+            statement = connection.createStatement();
+            
+            // SQL command to create a new database
+            String dbName = "MyDatabase";
+            String createDbQuery = "CREATE DATABASE " + dbName;
+            
+            // Execute the SQL command
+            statement.executeUpdate(createDbQuery);
+            
+            System.out.println("Database created successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+----------------->
+
+Create Table
+
+package in.db.table;
+
+
+public class CreateTableExample {
+
+	public static void main(String[] args)throws Exception {
+		//loading driver class (Load and Register Driver) - 1
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		
+		// Connection Create  - 2
+		Connection con =DriverManager.getConnection("jdbc:mysql://localhost:3306/mydatabase", " Your_UserName", " Your_Password");
+		//System.out.println("Done");
+		
+		//create a statement  - 3 
+		PreparedStatement ps = con.prepareStatement("CREATE TABLE Employees(id INT PRIMARY KEY, first_name VARCHAR(60),last_name VARCHAR(60),age INT,department VARCHAR(60))");
+		
+		
+		//execute statement  - 4
+		 ps.executeUpdate();
+		 System.out.println("Table Created Succesfully");
+		 
+		 //Close connection - 5
+		 con.close();
+	}
+
+}
+
+------->
+
+package in.db.insert;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class InsertDataExample {
+    public static void main(String[] args) {
+        String jdbcUrl = "jdbc:mysql://localhost:3306/mydatabase";
+        String username = "Your_UserName";
+        String password = “Your_Password";
+
+        String insertQuery = "INSERT INTO Employees (id, first_name, last_name, age, department) VALUES (?, ?, ?, ?, ?)";
+        
+        String[][] data = {
+            {"01", "John", "Doe", "30", "Engineering"},
+            {"02","Jane", "Smith", "28", "Marketing"},
+            {"03","Michael", "Johnson", "35", "Sales"},
+            {"04","Sarah", "Johnson", "25", "HR"},
+            {"05","Emily", "Brown", "29", "Marketing"},
+            {"06","David", "Martinez", "27", "IT"},
+            {"07","Jessica", "Taylor", "33", "Sales"},
+            {"08","William", "White", "31", "Engineering"},
+            {"09","Olivia", "Anderson", "28", "HR"},
+            {"10","Emma", "Miller", "24", "Marketing"},
+            {"11","Liam", "Clark", "26", "Engineering"},
+            {"12","Ava", "Davis", "30", "Sales"}
+        };
+        
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                for (String[] rowData : data) {
+                	preparedStatement.setInt(1, Integer.parseInt(rowData[0])); // id
+                    preparedStatement.setString(2, rowData[1]); // first_name
+                    preparedStatement.setString(3, rowData[2]); // last_name
+                    preparedStatement.setInt(4, Integer.parseInt(rowData[3])); // age
+                    preparedStatement.setString(5, rowData[4]); // department
+
+                    preparedStatement.executeUpdate();
+                }
+                System.out.println("Data inserted successfully.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+----------------->
+
+package in.db.update;
+public class UpdateDataExample {
+
+	
+		public static void main(String[] args) throws Exception {
+			int id1=3;
+			int age1=36;
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/mydatabase","Your_UserName",”Your_Password");
+			
+			
+			PreparedStatement ps =con.prepareStatement("update employees set age=? where id=?");
+			ps.setInt(1, age1);
+			ps.setInt(2, id1);
+			
+			
+			int count = ps.executeUpdate();
+			if (count > 0)
+			{
+				System.out.println("Update Successfully");
+			}else {
+				System.out.println("Error: Something Went Wrong");
+			}
+			
+			con.close();
+			System.out.println("Connection Close");
+		}
+
+	}
+-------------------->
+package in.db.delete;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+public class DeleteDataExample {
+
+	public static void main(String[] args) throws Exception {
+		//load Driver 
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		
+		//connection 
+		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/mydatabase","Your_UserName",”Your_Password");
+		
+		//create a statement
+		
+		PreparedStatement ps = con.prepareStatement("delete from employees where id=2");
+		
+		//execute statement
+		
+		int count =ps.executeUpdate();
+		
+		if(count>0) {System.out.println("Data deleted Successfully");}
+		else {System.out.println("Error: Something Went Wrong ");}
+		
+		
+		//close connection
+		con.close();
+	}
+
+}
+
+------------------->
+
+public class RetrieveAll {
+
+	public static void main(String[] args) throws Exception{
+		//load Driver
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		
+		
+		//create Connection
+		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/mydatabase","Your_UserName","Your_Password");
+		
+		//Create Statement
+		PreparedStatement ps= con.prepareStatement("select * from employees");
+		
+		//execute statement / Query
+		
+		ResultSet rs=ps.executeQuery();
+		
+		while(rs.next()) {
+			int id1=rs.getInt("id");
+			String first_name1=rs.getString("first_name");
+			String last_name1=rs.getString("last_name");
+			int age1=rs.getInt("age");
+			String  department1=rs.getString("department");
+			
+				
+			System.out.println("Id of emp = "+id1+"||  Name of Emp = "+first_name1+" "+last_name1+"|| Age = "+age1+"|| Dept Name = "+department1);
+			
+		}
+	}
+
+}
+
+---------->
+
+public class RetrieveSpecific {
+
+	public static void main(String[] args) throws Exception{
+		//load Driver
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		
+		
+		//create Connection
+		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/mydatabase","your_UserName","your_Password");
+		
+		//Create Statement
+		PreparedStatement ps= con.prepareStatement("select * from employees where department='Engineering'");
+		
+		//execute statement / Query
+		
+		ResultSet rs=ps.executeQuery();
+		
+		while(rs.next()) {
+			int id1=rs.getInt("id");
+			String first_name1=rs.getString("first_name");
+			String last_name1=rs.getString("last_name");
+			int age1=rs.getInt("age");
+			String  department1=rs.getString("department");
+			
+				
+			System.out.println("Id of emp = "+id1+"||  Name of Emp = "+first_name1+" "+last_name1+"|| Age = "+age1+"|| Dept Name = "+department1);
+			
+		}
+	}
+
+}
+
+------------------>
+

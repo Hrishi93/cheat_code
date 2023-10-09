@@ -1,0 +1,73 @@
+DBMS SQL
+
+
+Open MySql in cmd promt:
+cd path
+mysql -u root -p
+
+
+open sql in MySql Shell
+\sql
+\connect root@localhost:3306
+
+
+create table emp(id int, name varchar(30));
+
+
+--> add column
+alter table emp1 add age int;
+
+--> drop column
+alter table emp1 drop column age;
+
+
+--> Modify column data type
+alter table emp2 modify column id varchar(30);
+
+
+--> Change column name
+ alter table emp2 change column id rollno varchar(30);
+
+
+--> INSERT
+insert into emp1 values (04, 'Rajani');
+insert into emp1 values (04, 'Rajani'), (05,'radhe'),(06,'Shyam');
+
+insert into emp1(id, name) values(02, 'Shyam'),(03,'Ram');
+
+
+--> UPDATE
+update emp1 set name='Prabhas' where id=1;
+
+
+--> DELETE
+delete from emp1 where id=04;
+
+
+
+-->Foreign Key
+create table dept(depid int PRIMARY KEY, dname varchar(30) , office varchar(30));
+
+create table employee(deparid int, empid int PRIMARY KEY, name varchar(30), FOREIGN KEY(deparid) REFERENCES dept(depid));
+
+insert into dept values(10, 'HR' , 'Delhi');
+
+insert into employee values(10, 01, 'Raja');
+
+
+ select * from employee INNER JOIN dept ON employee.deparid=dept.depid;
+
+SELECT * FROM Customers WHERE Country = 'Mexico';
+
+SELECT * FROM Customers WHERE Country = 'Germany' AND City = 'Berlin';
+
+SELECT * FROM Customers WHERE City = 'Berlin' OR City = 'Stuttgart';
+
+SELECT * FROM Customers WHERE NOT Country = 'Germany';
+
+SELECT * FROM Customers WHERE Country = 'Germany' AND (City = 'Berlin' OR City = 'Stuttgart');
+
+SELECT * FROM Customers ORDER BY Country;
+
+SELECT * FROM Customers ORDER BY Country DESC;
+

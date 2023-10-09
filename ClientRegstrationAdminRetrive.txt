@@ -1,0 +1,172 @@
+CREATE DATABASE clientdata;
+
+USE clientdata;
+
+CREATE TABLE client_info (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    age INT,
+    gender VARCHAR(10),
+    city VARCHAR(50)
+);
+
+
+--------------------------------------------------------------------------------->
+client.html
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client Data Input</title>
+</head>
+<body>
+    <h1>Client Data Input</h1>
+    <form action="InsertDataServlet" method="post">
+        Name: <input type="text" name="name" required><br>
+        Age: <input type="number" name="age"><br>
+        Gender: <input type="text" name="gender"><br>
+        City: <input type="text" name="city"><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
+------------>
+
+InsertDataServlet.java
+
+
+public class InsertDataServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    	response.setContentType("text/html");
+    	PrintWriter out=response.getWriter();
+        String name = request.getParameter("name");
+        int age = Integer.parseInt(request.getParameter("age"));
+        String gender = request.getParameter("gender");
+        String city = request.getParameter("city");
+        String jdbcUrl = "jdbc:mysql://localhost:3306/clientdata";
+        String dbUser = "root";
+        String dbPassword = "Sonu@1993";
+
+        try {
+            Connection conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword);
+            String sql = "INSERT INTO client_info (name, age, gender, city) VALUES (?, ?, ?, ?)";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            preparedStatement.setInt(2, age);
+            preparedStatement.setString(3, gender);
+            preparedStatement.setString(4, city);
+
+           int save=preparedStatement.executeUpdate();
+            
+            conn.close();
+            
+            if(save==1) {
+            	//out.print("<html><body><script>alert('Success')</script></body></html>");
+            	response.sendRedirect("success.html");
+            }else {
+            	out.print("<html><body><script>alert('Failed')</script></body></html>");
+            	response.sendRedirect("login.html");
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //response.sendRedirect("client.html"); // Redirect back to the client input page
+    }
+}
+
+
+-------------------->
+admin.html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+</head>
+<body>
+    <h1>Admin Login</h1>
+    <form action="AdminServlet" method="post">
+        Username: <input type="text" name="username" required><br>
+        Password: <input type="password" name="password" required><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+
+
+---------------------->
+AdminServlet.java
+
+public class AdminServlet extends HttpServlet {
+    private static final String ADMIN_USERNAME = "admin";
+    private static final String ADMIN_PASSWORD = "admin@1234";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/clientdata";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "Sonu@1993";
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        if (username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASSWORD)) {
+            // Valid admin credentials
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+
+            out.println("<html>");
+            out.println("<head><title>Admin Page</title></head>");
+            out.println("<body>");
+            out.println("<h1>Welcome, Admin!</h1>");
+            out.println("<p>You can view client data here.</p>");
+
+            // Connect to the database and fetch client_info data
+            try {
+                Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD);
+                Statement stmt = conn.createStatement();
+                String query = "SELECT * FROM client_info";
+                ResultSet rs = stmt.executeQuery(query);
+
+                // Display the client_info data in an HTML table
+                out.println("<table border='1'>");
+                out.println("<tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>City</th></tr>");
+
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    int age = rs.getInt("age");
+                    String gender = rs.getString("gender");
+                    String city = rs.getString("city");
+
+                    out.println("<tr>");
+                    out.println("<td>" + id + "</td>");
+                    out.println("<td>" + name + "</td>");
+                    out.println("<td>" + age + "</td>");
+                    out.println("<td>" + gender + "</td>");
+                    out.println("<td>" + city + "</td>");
+                    out.println("</tr>");
+                }
+
+                out.println("</table>");
+
+                rs.close();
+                stmt.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            out.println("</body>");
+            out.println("</html>");
+        } else {
+            // Invalid credentials, redirect back to login page
+            response.sendRedirect("index.html");
+        }
+    }
+}
+

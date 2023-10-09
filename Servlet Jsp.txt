@@ -1,0 +1,250 @@
+MyServlet.java
+
+package in.js.backend;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+
+public class MyServlet extends HttpServlet {
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		PrintWriter out=response.getWriter();
+		out.print("Welcome on Browser");
+		System.out.println("Welcome, on Console");
+	}
+}
+
+---------------------------------------------------
+
+index.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="MyServlet" method="get">
+	<input type="submit"  value="click">
+</form>
+</body>
+</html>
+
+
+response.setContentType("Text/html");
+out.print("<html><head><title>Index</title></head><body><style> body{background-color: red;} p{background-color: blueviolet;color: brown;}</style>");
+out.print("<p>Welcome on Browser</p>");
+out.print("</body></html>");
+
+
+------------------------------------------------------------------------------------------>
+
+
+
+User Validation
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration Portal</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>XYZ College of Engineering</h1>
+        <div class="btn-container">
+            <a href="login.jsp">Login</a>
+            <a href="registration.jsp">Registration</a>
+        </div>   
+    </header>
+    <div class="content">
+        <h2>Students Registration Portal</h2>
+        <p>Welcome to the XYZ College of Engineering Students Registration Portal.</p>
+        
+        <!-- Your registration form and other content can go here -->
+    </div>
+</body>
+</html>
+
+
+
+----------------------
+Login.jsp
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+</head>
+<body>
+    <h2>Login Form</h2>
+    <form action="LoginServlet" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+
+---------------------
+LoginServlet.java
+
+
+
+package in.js.backend;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
+
+public class LoginServlet extends HttpServlet {
+   
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    	
+    	response.setContentType("text/html");
+        // Get the values entered in the HTML form
+    	PrintWriter out=response.getWriter();
+    	
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // Replace the following logic with your actual validation code
+        String dbUserName="Sonu1234";
+       String dbPassword="Sonu@1234";
+
+        if (username.equals(dbUserName) && password.equals(dbPassword)) {
+        		
+        	out.println("You Intered Correct Id and Password");
+        } else {
+        	out.println("You have entered wrong Id or Password");
+
+        }
+    }
+
+}
+
+
+--->
+
+  if (username.equals(dbUserName) && password.equals(dbPassword)) {
+        	RequestDispatcher rd = request.getRequestDispatcher("success.html");
+    		rd.forward(request,response);
+        } else {
+        	out.println("You have entered wrong Id or Password");
+        	RequestDispatcher rd = request.getRequestDispatcher("validation.html");
+    		rd.include(request,response);
+
+        }
+
+--->
+
+------------------------------------------------------------------------>
+Registration of User
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Information Form</title>
+</head>
+<body>
+    <h2>User Information Form</h2>
+    <form action="StoreDataServlet" method="post">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br><br>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br><br>
+        
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required><br><br>
+        
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required><br><br>
+        
+        <label>Gender:</label><br>
+        <input type="radio" id="male" name="gender" value="Male" required>
+        <label for="male">Male</label><br>
+        
+        <input type="radio" id="female" name="gender" value="Female" required>
+        <label for="female">Female</label><br>
+        
+        <input type="radio" id="other" name="gender" value="Other" required>
+        <label for="other">Other</label><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
+----->
+package in.js.backend;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
+
+public class StoreDataServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	response.setContentType("text/html");
+    	
+    	PrintWriter out=response.getWriter();
+    	
+    	
+    	
+        // Get data from the form
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        int age = Integer.parseInt(request.getParameter("age"));
+        String city = request.getParameter("city");
+        String gender = request.getParameter("gender");
+
+        
+        
+        // For demonstration purposes printing data on Web Page
+        out.println("<html><body>");
+        out.println("<p>");
+        out.println("First Name: " + firstName);
+        out.println("</p>");
+        out.println("<p>");
+        out.println("Last Name: " + lastName);
+        out.println("</p>");
+        out.println("<p>");
+        out.println("Age: " + age);
+        out.println("</p>");
+        out.println("<p>");
+        out.println("City: " + city);
+        out.println("</p>");
+        out.println("<p>");
+        out.println("Gender: " + gender);
+        out.println("</p>");
+    }
+}

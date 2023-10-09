@@ -1,0 +1,166 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hello JSP with Scripting</title>
+</head>
+<body>
+<%
+String message = "Hello, World! This is a JSP example with scripting.";
+%>
+<h1><%= message %></h1>
+</body>
+</html>
+
+--------------------------------------
+
+Login Using ID and Mail
+
+login.jsp
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="LoginServlet" method="post">
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+
+----------->
+LoginServlet.java
+
+public class LoginServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Retrieve user input from the form
+        String enteredId = request.getParameter("id");
+        String enteredEmail = request.getParameter("email");
+
+        
+        if (isValidUser(enteredId, enteredEmail)) {
+            response.sendRedirect("welcome.jsp");
+        } else {
+            response.sendRedirect("login.jsp?error=1");
+        }
+    }
+
+    private boolean isValidUser(String id, String email) {
+        return id.equals("admin") && email.equals("admin@example.com");
+    }
+}
+
+--------->
+welcom.jsp
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome Page</title>
+</head>
+<body>
+    <h1>Welcome!</h1>
+    <p>You have successfully logged in.</p>
+</body>
+</html>
+
+
+---------------------------------------------------------------------------------------------->
+
+Registartion Using Jsp
+
+registration.jsp
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+</head>
+<body>
+    <h1>Registration Form</h1>
+    <form action="RegisterServlet" method="post">
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id" required><br>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required><br>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label>Gender:</label>
+        <input type="radio" id="male" name="gender" value="Male" required>
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="Female" required>
+        <label for="female">Female</label><br>
+
+        <input type="submit" value="Register">
+    </form>
+</body>
+</html>
+
+
+
+
+----------------->
+
+RegisterServlet.java
+
+@WebServlet("/RegisterServlet")
+public class RegisterServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Retrieve user input from the form
+        String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        String city = request.getParameter("city");
+        int age = Integer.parseInt(request.getParameter("age"));
+        String email = request.getParameter("email");
+        String gender = request.getParameter("gender");
+
+        
+        System.out.println("ID: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("City: " + city);
+        System.out.println("Age: " + age);
+        System.out.println("Email: " + email);
+        System.out.println("Gender: " + gender);
+
+        // Redirect to a confirmation page or display a success message.
+        response.sendRedirect("confirm.jsp");
+    }
+}
+
+------------->
+Confirm.jsp
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Confirmation</title>
+</head>
+<body>
+    <h1>Registration Successful</h1>
+    <p>Thank you for registering!</p>
+</body>
+</html>
