@@ -1,0 +1,19 @@
+@charset "ISO-8859-1";
+
+    body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            height: 300px;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }

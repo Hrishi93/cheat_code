@@ -1,0 +1,95 @@
+
+@charset "ISO-8859-1";
+
+   /* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: Hotpink;
+    padding: 0;
+}
+
+/* Header styles */
+header {
+    background-color: #007BFF;
+    color: #fff;
+    text-align: center;
+    height: 200px;
+    padding: 20px;
+}
+
+header h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+header .btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header .btn-container a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    margin: 0 10px;
+    font-size: 18px;
+}
+
+header .btn-container a:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+
+
+
+/* Content styles */
+.content {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #007BFF;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+   text-align: center;
+}
+
+.content h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.content p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Additional styles for your registration form and other content can be added here */
+
+
+ .back-button {
+            margin-top: 20px;
+        }
+
+        .back-button a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .back-button a:hover {
+            background-color: #0056b3;
+        }
