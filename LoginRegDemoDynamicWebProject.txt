@@ -1,0 +1,248 @@
+Step 1
+
+Open Database
+Create a Database name as CLIENTDB
+
+		->Create Database CLIENTDB
+		->use CLIENTDB
+---------------------------------------
+Step 2
+Create table CLIENTS
+
+
+		->CREATE TABLE clients (id INT PRIMARY KEY, name VARCHAR(255) NOT NULL, city VARCHAR(255), password VARCHAR(255) NOT NULL);
+
+------------------------------------
+
+Step 3
+Open Eclipse IDE create Dynami Web Project --> SimpleProject
+
+-------------------------------------
+step 4.
+
+index.html
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login and Registration</title>
+</head>
+<body>
+    <h1>Welcome to our Website</h1>
+    
+    <p>If you already have an account, please <a href="login.jsp">Log in</a>.</p>
+    <p>If you're a new user, please <a href="registration.jsp">Register</a>.</p>
+</body>
+</html>
+
+
+----------------------------------------
+
+step 5
+
+registration.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+    <h1>Client Registration</h1>
+    <form action="RegisterServlet" method="post">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required><br>
+
+        <label for="city">City:</label>
+        <input type="text" name="city" id="city"><br>
+
+        <label for="id">ID:</label>
+        <input type="text" name="id" id="id" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required><br>
+
+        <input type="submit" value="Register">
+    </form>
+</body>
+</html>
+
+
+---------------------------------------------------
+step 6
+
+RegisterServlet.java
+
+package in.reg;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+public class RegisterServlet extends HttpServlet {
+    // Define your database URL, username, and password
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/clientdb";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "Your_db_Password";
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name");
+        String city = request.getParameter("city");
+        String id = request.getParameter("id");
+        String password = request.getParameter("password");
+        PrintWriter out=response.getWriter();
+
+        // JDBC variables
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            // Register JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            // Open a connection to the database
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+            // Insert data into the database
+            String insertQuery = "INSERT INTO clients (name, city, id, password) VALUES (?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(insertQuery);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, city);
+            preparedStatement.setString(3, id);
+            preparedStatement.setString(4, password);
+            preparedStatement.executeUpdate();
+
+            // Close resources
+            preparedStatement.close();
+            connection.close();
+
+            // Redirect to a success page or login page
+           // response.sendRedirect("success.jsp"); // Create a success.jsp page;
+            out.println("<h1>Registration Done </h1> ");
+
+        } catch (SQLException se) {
+            // Handle any errors that may occur
+            se.printStackTrace();
+           // response.sendRedirect("error.jsp"); // Create an error.jsp page
+            out.println("<h1>Registration Failed </h1> ");
+        }catch(Exception e) {
+        	e.printStackTrace();
+        }
+    }
+}
+
+--------------------------------------------------------
+step 7
+
+login.jsp
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Client Login</h1>
+    <form action="LoginServlet" method="post">
+        <label for="id">ID:</label>
+        <input type="text" name="id" id="id" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required><br>
+
+        <input type="submit" value="Log In">
+    </form>
+</body>
+</html>
+
+
+----------------------------------------------------------
+step 8
+
+LoginServlet.java
+
+package in.log;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class LoginServlet extends HttpServlet {
+	
+	
+	// Define your database URL, username, and password
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/collegedb";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "You_db_Password";
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+	
+		        String id = request.getParameter("id");
+		        String password = request.getParameter("password");
+		        PrintWriter out=response.getWriter();
+
+		        // JDBC variables
+		        Connection connection = null;
+		        PreparedStatement preparedStatement = null;
+		        ResultSet resultSet = null;
+
+		        try {
+		            // Register JDBC driver
+		            Class.forName("com.mysql.jdbc.Driver");
+
+		            // Open a connection to the database
+		            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+		            // Query the database to verify client's credentials
+		            String query = "SELECT * FROM clients WHERE id = ? AND password = ?";
+		            preparedStatement = connection.prepareStatement(query);
+		            preparedStatement.setString(1, id);
+		            preparedStatement.setString(2, password);
+		            resultSet = preparedStatement.executeQuery();
+
+		            if (resultSet.next()) {
+		                // Client authentication successful
+		                //response.sendRedirect("dashboard.jsp"); // Redirect to a dashboard or home page
+		            	out.print("<h1>Login Successfully</h1>");
+		            } else {
+		                // Client authentication failed
+		                response.sendRedirect("login.jsp"); // Redirect back to the login page with an error message
+		            }
+
+		        } catch (SQLException e) {
+		            // Handle any errors that may occur
+		            e.printStackTrace();
+		            //response.sendRedirect("error.jsp"); // Create an error.jsp page
+		        }catch (Exception e) {
+		                e.printStackTrace();
+		            }
+		        }
+	}
+
+
+
+
