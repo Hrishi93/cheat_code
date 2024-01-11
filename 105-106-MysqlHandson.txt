@@ -1,0 +1,78 @@
+104: Use methods
+
+CREATE TABLE people (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(25) NOT NULL,
+    occupation VARCHAR(25),
+    age INT,
+    location VARCHAR(25)
+);
+
+
+INSERT INTO people (name, occupation, age, location) VALUES
+('Raj Patel', 'Software Developer', 28, 'Mumbai'),
+('Priya Sharma', 'Teacher', 35, 'Delhi'),
+('Amit Singh', 'Doctor', 45, 'Jaipur'),
+('Ananya Kapoor', 'Marketing Manager', 30, 'Bangalore'),
+('Vikram Desai', 'Graphic Designer', 25, 'Chennai'),
+('Sneha Gupta', 'Accountant', 32, 'Kolkata'),
+('Nikhil Verma', 'Sales Representative', 38, 'Hyderabad'),
+('Kavita Reddy', 'Architect', 40, 'Pune'),
+('Rahul Kumar', 'Chef', 27, 'Ahmedabad'),
+('Deepika Mishra', 'Nurse', 33, 'Lucknow');
+
+select max(age) as "maximum Age" from people;
+select min(age) as "minimum Age" from people;
+select avg(salary) as "Avg_salary" from people;
+select sum(salary) as "Totalsum" from people;
+
+--------------------------------------
+105: Use of check constraints 
+
+CREATE TABLE employee(ID int NOT NULL,Name varchar(45) NOT NULL,Age int CHECK (Age>=18));  
+INSERT INTO employee(Id, Name, Age) VALUES (1,'Robert', 28), (2, 'Joseph', 35), (3, 'Peter', 40); 
+INSERT INTO employee(Id, Name, Age) VALUES (1,'Robert', 15);   
+
+-----------------------------
+
+106: Use of case, as, like operators 
+
+CREATE TABLE client (
+    id INT PRIMARY KEY,
+    name VARCHAR(255),
+    city VARCHAR(255)
+);
+
+
+INSERT INTO client (id, name, city)
+VALUES
+    (1, 'John Doe', 'New York'),
+    (2, 'Jane Smith', 'Los Angeles'),
+    (3, 'Alice Johnson', 'Chicago'),
+    (4, 'Bob Wilson', 'San Francisco'),
+    (5, 'Eva Brown', 'Miami');
+
+----
+1-Using CASE: 
+
+SELECT id, name, city,
+  CASE
+    WHEN city = 'New York' THEN 'East Coast'
+    WHEN city = 'Los Angeles' THEN 'West Coast'
+    ELSE 'Other'
+  END AS region
+FROM client;
+
+
+----
+2-Using AS:
+
+SELECT id, name AS client_name, city AS client_city
+FROM client;
+
+----
+3-Using LIKE
+
+SELECT id, name, city
+FROM client
+WHERE name LIKE '%John%';
