@@ -1,0 +1,45 @@
+import React from "react";
+export default class DemoState extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+             college:"KDK",
+             address:"Nagpur",
+             name:"Ram Kumar",
+             mail:"Ram@gmail.com"
+        }
+    }
+
+    updateState(){
+        this.setState({
+            name:"Mohan Bhargav",
+            mail: "mohan@gmail.com"
+        })
+    }
+    
+    updateState1(){
+        this.setState({
+            name:"Kishor Kumar",
+            mail: "kishor@gmail.com"
+        })
+    }
+
+    render(){
+        return(
+            <>
+                <h1>Example of State</h1>
+                <h2>Welcome at : {this.state.college}</h2>
+                <h2>at {this.state.address} </h2>
+                <div clasName="div1">
+                <p>Name : {this.state.name}</p>
+                <p>mail : {this.state.mail}</p>
+                </div>
+                   
+                <button onClick={()=>{this.updateState()}}>Change State</button>
+                <button onClick={()=>{this.updateState1()}}>Change State</button>      
+            </>
+        )
+    
+    }
+       
+}
